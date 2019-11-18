@@ -29,8 +29,9 @@ public class IngresarMaterial extends javax.swing.JFrame {
      */
     public IngresarMaterial() {
         initComponents();
+                           
     }
-
+     public Arbol arbol = new Arbol();
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -207,40 +208,34 @@ public class IngresarMaterial extends javax.swing.JFrame {
         int estatus = 1;
         int tiempo_degradarse = Integer.parseInt(txtTiempo.getText());
         Material nuevo = new Material(txtNombre.getText(), txtTipo.getText(), txtPathfoto.getText(), ProyectoMEIA.usuarioEnUso.getUsuario(), fecha_creacion, estatus, tiempo_degradarse);
-         
+
         //MODIFICAR AQUI
         if(OperacionesSecuencialM.obtenerDescriptorMaterial(2).getNumRegistros()!=0){
-        if(OperacionesSecuencialM.obtenerDescriptorMaterial(2).getNumRegistros() < OperacionesSecuencialM.obtenerDescriptorMaterial(2).getMaxReorganizacion()){            
-        if(!VerSiExisteMaterial(nuevo)){
-             String textoAnterior=Lector.Obtener("C:/MEIA/Materiales/bitacora_Material.txt");
-             Escritor.Escribir("C:/MEIA/Materiales/bitacora_Material.txt", textoAnterior+nuevo.toString());               
-             DescriptorMaterial des = OperacionesSecuencialM.obtenerDescriptorMaterial(2);
-             
-             des.setNumRegistros(des.getNumRegistros()+1);
-                            des.setRegistrosActivos(des.getRegistrosActivos()+1);                            
-                            des.setUsuarioModificacion(nuevo.getNombre());
-                            Date fechaActual = new Date();
-                            des.setFechaModificacion(fechaActual.toString());
-                            OperacionesSecuencialM.rellenarDescriptorMaterial(des, 2);
-           
+        int indice = OperacionesSecuencialM.obtenerDescriptorMaterial(2).getNumRegistros() + 1;
+            int izquierdo=-1;
+            int derecho=-1;
+            NodoArbol nuevoNodo = new NodoArbol(indice, izquierdo, derecho, nuevo.Nombre, nuevo.estatus, nuevo.path_imagen, nuevo.tipo, nuevo.tiempo_degradarse, nuevo.usuario_transaccion, nuevo.fecha_creacion);
+            nuevoNodo.indice = OperacionesSecuencialM.obtenerDescriptorMaterial(2).getNumRegistros() + 1;
+            arbol.agregarNodo(nuevoNodo);                       
+            String cadena = arbol.inOrden(arbol.raiz, 0);          
+            Escritor.Escribir("C:/MEIA/Materiales/MaterialBinario.txt",cadena);    
+            DescriptorMaterial des = OperacionesSecuencialM.obtenerDescriptorMaterial(2);           
+            des.setNumRegistros(des.getNumRegistros()+1);
+            des.setRegistrosActivos(des.getRegistrosActivos()+1);                            
+            des.setUsuarioModificacion(nuevo.getNombre());
+            Date fechaActual = new Date();
+            des.setFechaModificacion(fechaActual.toString());
+            OperacionesSecuencialM.rellenarDescriptorMaterial(des, 2);
+       }
+        else{
             
-        } else{
-        JOptionPane.showMessageDialog(null,"Ya existe un Material con el nombre de usuario " + txtNombre.getText());
-        txtNombre.setText("");
-        txtNombre.requestFocus();
-        }
-        }else{
-           try {
-                       JOptionPane.showMessageDialog(null,"Material Ingresado Correctamente");
-                            OperacionesSecuencialM.LlenarMaterialMaestro();
-                           } catch (IOException ex) {
-                            Logger.getLogger(BuscarUsuarios.class.getName()).log(Level.SEVERE, null, ex);
-                            } 
-        }
-        }else{
-                   
-                    Escritor.Escribir("C:/MEIA/Materiales/bitacora_Material.txt",nuevo.toString());
-                    
+                    int indice = 1;
+                    int izquierdo = -1;
+                    int derecho = -1;
+                    NodoArbol nuevoNodo = new NodoArbol(indice, izquierdo, derecho, nuevo.Nombre, nuevo.estatus, nuevo.path_imagen, nuevo.tipo, nuevo.tiempo_degradarse, nuevo.usuario_transaccion, nuevo.fecha_creacion);
+                    arbol.agregarNodo(nuevoNodo);
+                    String cadena = arbol.inOrden(arbol.raiz,0);
+                    Escritor.Escribir("C:/MEIA/Materiales/MaterialBinario.txt",cadena);                                     
                     DescriptorMaterial des = OperacionesSecuencialM.obtenerDescriptorMaterial(2);
                             
                     des.setNumRegistros(des.getNumRegistros()+1);
