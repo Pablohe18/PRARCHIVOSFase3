@@ -217,8 +217,13 @@ public class IngresarMaterial extends javax.swing.JFrame {
             NodoArbol nuevoNodo = new NodoArbol(indice, izquierdo, derecho, nuevo.Nombre, nuevo.estatus, nuevo.path_imagen, nuevo.tipo, nuevo.tiempo_degradarse, nuevo.usuario_transaccion, nuevo.fecha_creacion);
             nuevoNodo.indice = OperacionesSecuencialM.obtenerDescriptorMaterial(2).getNumRegistros() + 1;
             arbol.agregarNodo(nuevoNodo);                       
-            String cadena = arbol.inOrden(arbol.raiz, 0);          
-            Escritor.Escribir("C:/MEIA/Materiales/MaterialBinario.txt",cadena);    
+            String cadena = arbol.inOrden(arbol.raiz, 0);  
+            String textoAnterior = Lector.Obtener("C:/MEIA/Materiales/MaterialBinario.txt");
+            if (textoAnterior=="") {
+             Escritor.Escribir("C:/MEIA/Materiales/MaterialBinario.txt",textoAnterior+cadena); 
+            }else{
+             Escritor.Escribir("C:/MEIA/Materiales/MaterialBinario.txt",cadena); 
+            }
             DescriptorMaterial des = OperacionesSecuencialM.obtenerDescriptorMaterial(2);           
             des.setNumRegistros(des.getNumRegistros()+1);
             des.setRegistrosActivos(des.getRegistrosActivos()+1);                            
@@ -236,8 +241,7 @@ public class IngresarMaterial extends javax.swing.JFrame {
                     arbol.agregarNodo(nuevoNodo);
                     String cadena = arbol.inOrden(arbol.raiz,0);
                     Escritor.Escribir("C:/MEIA/Materiales/MaterialBinario.txt",cadena);                                     
-                    DescriptorMaterial des = OperacionesSecuencialM.obtenerDescriptorMaterial(2);
-                            
+                    DescriptorMaterial des = OperacionesSecuencialM.obtenerDescriptorMaterial(2);                          
                     des.setNumRegistros(des.getNumRegistros()+1);
                     des.setRegistrosActivos(des.getRegistrosActivos()+1);                            
                     des.setUsuarioCreacion(nuevo.getNombre());
