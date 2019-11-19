@@ -19,25 +19,25 @@ public class Arbol {
     }
 
     //METODO PARA INSERTTAR U NODO EN EL ARBOL
-    public void agregarNodo(int d, String nom) {
-        NodoArbol nuevo = new NodoArbol(d, nom);
+    public void agregarNodo(NodoArbol s) {
+        
         if (raiz == null) {  //CUANDO ESTA VACIO EL ARBOL
-            raiz = nuevo;
+            raiz = s;
         } else {
             NodoArbol aux = raiz;
             NodoArbol padre;
             while (true) {
                 padre = aux;
-                if (d < aux.dato) { //EL HIJO ES MENOR?
+                if (s.material.compareTo(aux.material) < 0) { //EL HIJO ES MENOR?
                     aux = aux.hijoIzquierdo;
                     if (aux == null) { //YA LLEGO AL FINAL , DONDE SE LO DEBE INSERTAR
-                        padre.hijoIzquierdo = nuevo;
+                        padre.hijoIzquierdo = s;
                         return;
                     }
                 } else {
                     aux = aux.hijoDerecho;
                     if (aux == null) { //DEBE INSERTARSE
-                        padre.hijoDerecho = nuevo;
+                        padre.hijoDerecho = s;
                         return;
                     }
                 }
@@ -49,20 +49,35 @@ public class Arbol {
     public boolean estaVacio() {
         return raiz == null;
     }
-
+          String cadena = "";
     //METODO IN-ORDEN
-    public void inOrden(NodoArbol raiz) {
-        if (raiz != null) {
-            inOrden(raiz.hijoIzquierdo);
-            System.out.print(raiz.dato + ", ");
-            inOrden(raiz.hijoDerecho);
+    public String inOrden(NodoArbol raiz,int n) {
+            if(n == 0){
+            cadena = "";
+            }
+        if (raiz != null) {          
+            int izquierdo = -1;
+            int derecho = -1;
+            if(raiz.hijoIzquierdo !=  null){
+            izquierdo = raiz.hijoIzquierdo.indice;
+            }
+            if(raiz.hijoDerecho !=  null){               
+            derecho = raiz.hijoDerecho.indice;
+            }
+            n=1;
+            cadena = cadena + raiz.indice + "|" + izquierdo + "|" + derecho + "|" + raiz.material + "|" + raiz.estado + ",";
+            inOrden(raiz.hijoIzquierdo,1);       
+            inOrden(raiz.hijoDerecho,1);
+           
+
         }
+        return cadena;
     }
 
     //METODO PRE-ORDEN
     public void preOrden(NodoArbol raiz) {
         if (raiz != null) {
-            System.out.print(raiz.dato + ", ");
+            System.out.print(raiz.material + ", ");
             preOrden(raiz.hijoIzquierdo);
             preOrden(raiz.hijoDerecho);
         }
@@ -73,15 +88,15 @@ public class Arbol {
         if (raiz != null) {
             postOrden(raiz.hijoIzquierdo);
             postOrden(raiz.hijoDerecho);
-            System.out.print(raiz.dato + ", ");
+            System.out.print(raiz.material + ", ");
         }
     }
 
     //METODO PARA BUSCAR UN NODO EN EL ARBOL
-    public NodoArbol buscarNodo(int nodo) {
+    public NodoArbol buscarNodo(String nodo) {
         NodoArbol aux = raiz;
-        while (aux.dato != nodo) {
-            if (nodo < aux.dato) {
+        while (aux.material != nodo) {
+            if (nodo.compareTo(aux.material) < 0) {
                 aux = aux.hijoIzquierdo;
             } else {
                 aux = aux.hijoDerecho;
@@ -94,13 +109,13 @@ public class Arbol {
     }
 
     //METODO PARA ELIMINAR UN NODO DEL ARBOL
-    public boolean eliminar(int nodo) {
+    public boolean eliminar(String nodo) {
         NodoArbol aux = raiz;
         NodoArbol padre = raiz;
         boolean esHijoIzquierdo = true;
-        while (aux.dato != nodo) { //BUSCAR EL NODO A ELIMINAR
+        while (aux.material != nodo) { //BUSCAR EL NODO A ELIMINAR
             padre = aux;
-            if (nodo < aux.dato) { //DEBE IRSSE POR EL LADO IZQUIERDO
+            if (nodo.compareTo(aux.material) < 0) { //DEBE IRSSE POR EL LADO IZQUIERDO
                 esHijoIzquierdo = true;
                 aux = aux.hijoIzquierdo;
             } else {

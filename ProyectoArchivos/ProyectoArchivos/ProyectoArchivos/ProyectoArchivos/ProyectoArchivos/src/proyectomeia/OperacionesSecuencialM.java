@@ -31,10 +31,10 @@ public class OperacionesSecuencialM {
         public static LinkedList<Material> obtenerMateriales(int OpcionObtener){
         String contenido="";
         if(OpcionObtener==1){
-             contenido=Lector.Obtener("C:/MEIA/Materiales/bitacora_Material.txt");
+             contenido=Lector.Obtener("C:/MEIA/Materiales/MaterialBinario.txt");
         }
         else if(OpcionObtener==2){
-            contenido=Lector.Obtener("C:/MEIA/Materiales/Material.txt");
+            contenido=Lector.Obtener("C:/MEIA/Materiales/MaterialBinario.txt");
         }
         
         if(!contenido.isEmpty()){
@@ -58,14 +58,14 @@ public class OperacionesSecuencialM {
            // user.setContraseña(getMD5(contraseña));
             textoEscribir+=mat.toString()+",";
         }
-        Escritor.Escribir("C:/MEIA/Materiales/Material.txt", textoEscribir);
+        Escritor.Escribir("C:/MEIA/Materiales/MaterialBinario.txt", textoEscribir);
     }
     public static void rellenarMaterialesMaestro(LinkedList<Material> materiales){
         String textoEscribir="";
         for(Material mat:materiales){
             textoEscribir+=mat.toFixedSizeString()+",";
         }
-        Escritor.Escribir("C:/MEIA/Materiales/Material.txt", textoEscribir);
+        Escritor.Escribir("C:/MEIA/Materiales/MaterialBinario.txt", textoEscribir);
     }
     public static DescriptorMaterial obtenerDescriptorMaterial(int OpcionObtener){
           String contenido="";
@@ -158,7 +158,7 @@ public class OperacionesSecuencialM {
         descBitacora.setNumRegistros(0);
         descBitacora.setRegistrosActivos(0);
         descBitacora.setRegistrosInactivos(0);
-        File bitacora=new File("C:/MEIA/Materiales/bitacora_Material.txt");
+        File bitacora=new File("C:/MEIA/Materiales/MaterialBinario.txt");
         bitacora.delete();
         bitacora.createNewFile();
         descUser.setFechaModificacion(fecha.toString());
