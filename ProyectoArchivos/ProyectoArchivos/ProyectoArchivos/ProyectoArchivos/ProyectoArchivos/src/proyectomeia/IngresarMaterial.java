@@ -212,15 +212,25 @@ public class IngresarMaterial extends javax.swing.JFrame {
         //MODIFICAR AQUI
         if(OperacionesSecuencialM.obtenerDescriptorMaterial(2).getNumRegistros()!=0){
         int indice = OperacionesSecuencialM.obtenerDescriptorMaterial(2).getNumRegistros() + 1;
+            String textoAnterior = "";
             int izquierdo=-1;
             int derecho=-1;
             NodoArbol nuevoNodo = new NodoArbol(indice, izquierdo, derecho, nuevo.Nombre, nuevo.estatus, nuevo.path_imagen, nuevo.tipo, nuevo.tiempo_degradarse, nuevo.usuario_transaccion, nuevo.fecha_creacion);
             nuevoNodo.indice = OperacionesSecuencialM.obtenerDescriptorMaterial(2).getNumRegistros() + 1;
+            if(arbol.raiz == null){
+            textoAnterior = Lector.Obtener("C:/MEIA/Materiales/MaterialBinario.txt"); 
+            String[] spli=textoAnterior.split(",");
+                for (int i = 0; i < spli.length; i++) {
+                    String cadena = spli[i];
+                    String[] spli2 = cadena.split("\\|");
+                    NodoArbol Nodosanteriores = new NodoArbol(Integer.parseInt(spli2[0]),Integer.parseInt(spli2[1]),Integer.parseInt(spli2[2]), spli2[3],Integer.parseInt(spli2[9]), spli2[5], spli2[4],Integer.parseInt(spli2[6]), spli2[7], spli2[8]);
+                    arbol.agregarNodo(Nodosanteriores);
+                }
+            }
             arbol.agregarNodo(nuevoNodo);                       
-            String cadena = arbol.inOrden(arbol.raiz, 0);  
-            String textoAnterior = Lector.Obtener("C:/MEIA/Materiales/MaterialBinario.txt");
-            if (textoAnterior=="") {
-             Escritor.Escribir("C:/MEIA/Materiales/MaterialBinario.txt",textoAnterior+cadena); 
+            String cadena = arbol.inOrden(arbol.raiz, 0);            
+            if (textoAnterior.length() == 0) {
+             Escritor.Escribir("C:/MEIA/Materiales/MaterialBinario.txt",cadena); 
             }else{
              Escritor.Escribir("C:/MEIA/Materiales/MaterialBinario.txt",cadena); 
             }
