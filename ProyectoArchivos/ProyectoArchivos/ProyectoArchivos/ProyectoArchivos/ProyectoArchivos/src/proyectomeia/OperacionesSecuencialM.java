@@ -42,8 +42,11 @@ public class OperacionesSecuencialM {
             LinkedList<Material> Mat=new LinkedList<>();
             for (int i = 0; i < Materiales.length; i++){
                 String[] camposMaterial=Materiales[i].split("\\|");
-                Material MaterialObtenido=new Material(camposMaterial[0].trim(),camposMaterial[1].trim(),camposMaterial[2].trim(),camposMaterial[3].trim(),camposMaterial[4].trim(),Integer.parseInt(camposMaterial[5].trim()),Integer.parseInt(camposMaterial[6].trim()));               
-                Mat.add(MaterialObtenido);
+                 String MaterialObtenido= camposMaterial[3].trim(); 
+                IngresarMaterial IM = new IngresarMaterial();
+                NodoArbol EXT = IM.arbol.buscarNodo(MaterialObtenido);
+                Material mt = new Material(EXT.material, EXT.tipo, EXT.pathimg,EXT.UsuarioTrans, EXT.Fechacreacion, EXT.estado, EXT.tiempodeg);
+                Mat.add(mt);
             }
             return Mat;            
         }   

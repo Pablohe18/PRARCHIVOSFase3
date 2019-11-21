@@ -65,7 +65,7 @@ public class Arbol {
             derecho = raiz.hijoDerecho.indice;
             }
             n=1;
-            cadena = cadena + raiz.indice + "|" + izquierdo + "|" + derecho + "|" + raiz.material + "|" + raiz.estado + ",";
+            cadena = cadena + raiz.indice + "|" + izquierdo + "|" + derecho + "|" + raiz.material + "|" + raiz.tipo + "|" + raiz.pathimg + "|" + raiz.tiempodeg + "|" + raiz.UsuarioTrans + "|" + raiz.Fechacreacion  + "|" + raiz.estado + ",";
             inOrden(raiz.hijoIzquierdo,1);       
             inOrden(raiz.hijoDerecho,1);
            
